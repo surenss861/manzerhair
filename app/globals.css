@@ -1,26 +1,204 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cozy Boutique × Modern Luxury Palette */
+  --cream: #faf7f2;
+  --ivory: #fefcf8;
+  --espresso: #3b2e25;
+  --espresso-light: #4a3a2f;
+  --espresso-dark: #2d221a;
+  --gold-soft: #c4a77d;
+  --gold-light: #d4b896;
+  --clay: #d9c9b5;
+  --clay-light: #e8ddd0;
+  --olive: #5b5849;
+  --olive-light: #6d6a5a;
+  --text-primary: #3b2e25;
+  --text-secondary: #5b5849;
+  --text-muted: #8b7a68;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-cream text-[#3b2e25] font-sans antialiased;
+    /* Subtle paper texture - very minimal */
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(59, 46, 37, 0.01) 1px, transparent 0);
+    background-size: 50px 50px;
+    /* Global warm tint overlay (0.5-1%) - Salon-light optimized */
+    position: relative;
+  }
+  
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(217, 201, 181, 0.007);
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Typography System Finalization */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-[#3b2e25];
+    font-weight: 500;
+    letter-spacing: -0.02em; /* -1% to -3% */
+    line-height: 1.15; /* 1.1-1.2 */
+  }
+  
+  h1 {
+    font-weight: 600;
+  }
+  
+  h2 {
+    font-weight: 600;
+  }
+  
+  p {
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+  
+  /* Script font rules */
+  .font-script {
+    font-size: clamp(18px, 2vw, 24px);
+  }
+  
+  /* Softer focus states */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-gold-soft/40 ring-offset-2 ring-offset-cream;
   }
 }
 
+@layer utilities {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+  
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  
+  /* Glass-like soft shadows - luxury feel */
+  .shadow-soft {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+  
+  .shadow-soft-lg {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.02);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(196, 167, 125, 0.15);
+  }
+  
+  /* Organic rounded corners */
+  .rounded-organic {
+    border-radius: 2rem;
+  }
+  
+  .rounded-organic-lg {
+    border-radius: 3rem;
+  }
+  
+  /* Script font utility */
+  .font-script {
+    font-family: var(--font-script), cursive;
+  }
+  
+  /* Advanced animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 3s infinite;
+  }
+  
+  /* 3D transform utilities */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Radial gradient utility for vignette */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream-light);
+  color: var(--text-primary);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), serif;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #2c2416;
+}
+
+.font-heading {
+  font-family: var(--font-playfair), serif;
 }
