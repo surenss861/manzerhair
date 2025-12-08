@@ -120,10 +120,11 @@ export function TestimonialsSection() {
                   <div className="relative w-10 h-10 rounded-full overflow-hidden">
                     <Image
                       src={testimonial.headshot}
-                      alt={testimonial.author}
+                      alt={`${testimonial.author}, client at Manzer Hair Studio`}
                       fill
                       className="object-cover"
                       sizes="40px"
+                      loading="lazy"
                     />
                   </div>
                 )}

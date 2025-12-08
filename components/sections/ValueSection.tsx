@@ -4,12 +4,13 @@ import { motion, useScroll, useTransform, useMotionTemplate, useMotionValueEvent
 import { Leaf, Award, MapPin, Heart, ArrowRight } from "lucide-react";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { trackCTA } from "@/lib/analytics";
 
 const values = [
   {
     icon: Leaf,
     title: "Eco-Friendly Everything",
-    description: "Green Circle certified, cruelty-free, PPD-free color, sustainable products.",
+    description: "Eco-certified: sustainable products & planet-friendly practices. Green Circle certified, cruelty-free, PPD-free color.",
     microStory: "A greener way to colour.",
     badge: "Eco Certified",
     iconHaloSize: 1.15,
@@ -847,7 +848,9 @@ export function ValueSection() {
                     >
                       <Link
                         href={value.ctaHref}
-                        className="inline-flex items-center gap-1.5 text-clay/70 hover:text-gold-soft font-light text-xs transition-colors duration-150"
+                        onClick={() => trackCTA(value.ctaText, "value_section")}
+                        className="inline-flex items-center gap-1.5 text-clay/70 hover:text-gold-soft font-light text-xs transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-1 rounded-sm"
+                        aria-label={`${value.ctaText} - ${value.title}`}
                       >
                         <span>{value.ctaText}</span>
                         <ArrowRight className="w-3 h-3" />

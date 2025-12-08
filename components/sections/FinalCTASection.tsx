@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Calendar, Users } from "lucide-react";
 import Image from "next/image";
+import { trackCTA } from "@/lib/analytics";
 
 export function FinalCTASection() {
   return (
@@ -111,6 +112,11 @@ export function FinalCTASection() {
             Meet the stylists behind 1,000+ transformations.
           </p>
           
+          {/* Sub-line about self-care */}
+          <p className="text-clay/70 text-base max-w-xl mx-auto mb-8 font-light italic">
+            You deserve to feel your best every day.
+          </p>
+          
           {/* Buttons from hero (visual consistency) */}
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
             <motion.div
@@ -120,10 +126,12 @@ export function FinalCTASection() {
             >
               <Link
                 href="#book"
-                className="group relative px-12 py-5 bg-espresso text-gold-soft rounded-full font-medium text-lg overflow-hidden block"
+                onClick={() => trackCTA("Book Now", "final_cta")}
+                className="group relative px-12 py-5 bg-espresso text-gold-soft rounded-full font-medium text-lg overflow-hidden block focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 focus:ring-offset-cream transition-all"
                 style={{
                   boxShadow: "0 4px 20px rgba(59, 46, 37, 0.25), 0 2px 8px rgba(196, 167, 125, 0.15)",
                 }}
+                aria-label="Book your appointment at Manzer Hair Studio"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   <Calendar className="w-5 h-5" />
@@ -145,12 +153,14 @@ export function FinalCTASection() {
             >
               <Link
                 href="/team"
-                className="group relative px-12 py-5 border border-olive/40 text-espresso rounded-full font-medium text-lg backdrop-blur-sm bg-cream-light/30 hover:bg-clay-light/20 transition-all duration-300 overflow-hidden block"
+                onClick={() => trackCTA("Meet the Team", "final_cta")}
+                className="group relative px-12 py-5 border border-olive/40 text-espresso rounded-full font-medium text-lg backdrop-blur-sm bg-cream-light/30 hover:bg-clay-light/20 transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 focus:ring-offset-cream"
                 style={{
                   borderWidth: "1px",
                   borderColor: "rgba(255, 255, 255, 0.25)",
                   boxShadow: "0 2px 12px rgba(91, 88, 73, 0.1)",
                 }}
+                aria-label="Meet the team of stylists at Manzer Hair Studio"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   <Users className="w-5 h-5" />

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Clock, Instagram, Facebook, Star, Mail } from "lucide-react";
+import { MapPin, Clock, Instagram, Facebook, Star, Mail, ExternalLink } from "lucide-react";
 
 export function Footer() {
   return (
@@ -38,18 +38,29 @@ export function Footer() {
             <h4 className="font-heading text-2xl font-semibold mb-6 text-cream-light">Visit Us on the Danforth</h4>
             <div className="space-y-5 text-sm font-light">
               <div className="flex items-start gap-4">
-                <MapPin className="w-5 h-5 text-gold-soft mt-0.5 flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-gold-soft mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div className="text-clay-light">
                   <p className="text-cream-light font-medium mb-1">1993 Danforth Ave</p>
-                  <p>Toronto, ON M4C 1J6</p>
+                  <p className="mb-3">Toronto, ON M4C 1J6</p>
+                  <a
+                    href="https://www.google.com/maps/place/1993+Danforth+Ave,+Toronto,+ON+M4C+1J6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gold-soft hover:text-gold-light text-sm font-light transition-colors duration-300 inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 rounded-sm"
+                    aria-label="Get directions to Manzer Hair Studio on Google Maps"
+                  >
+                    Get directions
+                    <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <Clock className="w-5 h-5 text-gold-soft mt-0.5 flex-shrink-0" />
+                <Clock className="w-5 h-5 text-gold-soft mt-0.5 flex-shrink-0" aria-hidden="true" />
                 <div className="text-clay-light">
                   <p className="text-cream-light font-medium mb-1">Hours</p>
                   <p>Mon - Sat: 9:00 AM - 7:00 PM</p>
                   <p>Sun: 10:00 AM - 5:00 PM</p>
+                  <p className="text-clay text-xs font-light mt-2 italic">Parking available • Near TTC</p>
                 </div>
               </div>
             </div>
@@ -71,13 +82,14 @@ export function Footer() {
                 &quot;The best salon on the Danforth. Professional, warm, and my hair has never looked better.&quot;
               </p>
               <a
-                href="https://g.page/r/..."
+                href="https://g.page/r/manzer-hair-studio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gold-soft hover:text-gold-light text-sm font-light transition-colors duration-300 inline-flex items-center gap-1"
+                className="text-gold-soft hover:text-gold-light text-sm font-light transition-colors duration-300 inline-flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 rounded-sm"
+                aria-label="Read more Google Reviews for Manzer Hair Studio"
               >
                 Read more reviews
-                <span className="text-xs">→</span>
+                <ExternalLink className="w-3 h-3" aria-hidden="true" />
               </a>
             </div>
           </div>
@@ -87,15 +99,20 @@ export function Footer() {
             <h4 className="font-heading text-2xl font-semibold mb-6 text-cream-light">Stay Connected</h4>
             {/* Newsletter Signup */}
             <form className="mb-6">
+              <p className="text-clay text-xs font-light mb-3">
+                Be the first to know about our last-minute openings & hair-care tips.
+              </p>
               <div className="flex flex-col gap-3">
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="px-4 py-3 bg-cream-light/10 border border-gold-soft/30 rounded-organic text-cream-light placeholder-clay/50 text-sm font-light focus:outline-none focus:border-gold-soft/60 transition-colors"
+                  aria-label="Email address for newsletter subscription"
+                  className="px-4 py-3 bg-cream-light/10 border border-gold-soft/30 rounded-organic text-cream-light placeholder-clay/50 text-sm font-light focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:border-gold-soft/60 transition-colors"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gold-soft/20 hover:bg-gold-soft/30 border border-gold-soft/40 text-cream-light rounded-organic text-sm font-light transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="px-6 py-3 bg-gold-soft/20 hover:bg-gold-soft/30 border border-gold-soft/40 text-cream-light rounded-organic text-sm font-light transition-colors duration-300 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2"
+                  aria-label="Subscribe to newsletter"
                 >
                   <Mail className="w-4 h-4" />
                   Subscribe
@@ -108,19 +125,19 @@ export function Footer() {
                 href="https://instagram.com/manzerhair"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-gold-soft/30 hover:border-gold-soft/60 flex items-center justify-center transition-colors duration-300 group"
-                aria-label="Instagram"
+                className="w-10 h-10 rounded-full border border-gold-soft/30 hover:border-gold-soft/60 flex items-center justify-center transition-colors duration-300 group focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2"
+                aria-label="Follow Manzer Hair Studio on Instagram"
               >
-                <Instagram className="w-5 h-5 text-gold-soft group-hover:text-gold-light transition-colors" strokeWidth="1.5" />
+                <Instagram className="w-5 h-5 text-gold-soft group-hover:text-gold-light transition-colors" strokeWidth="1.5" aria-hidden="true" />
               </a>
               <a
                 href="https://facebook.com/manzerhair"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-gold-soft/30 hover:border-gold-soft/60 flex items-center justify-center transition-colors duration-300 group"
-                aria-label="Facebook"
+                className="w-10 h-10 rounded-full border border-gold-soft/30 hover:border-gold-soft/60 flex items-center justify-center transition-colors duration-300 group focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2"
+                aria-label="Follow Manzer Hair Studio on Facebook"
               >
-                <Facebook className="w-5 h-5 text-gold-soft group-hover:text-gold-light transition-colors" strokeWidth="1.5" />
+                <Facebook className="w-5 h-5 text-gold-soft group-hover:text-gold-light transition-colors" strokeWidth="1.5" aria-hidden="true" />
               </a>
             </div>
           </div>

@@ -14,6 +14,7 @@ const transformations = [
     microStory: "Her goal: softer framing & dimension. Result: effortless natural lift.",
     quote: "I feel like myself, but better.",
     client: "Sarah M.",
+    stylist: "Alyssa", // Add stylist attribution
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const transformations = [
     microStory: "From flat to depth. Rich, warm tones that move with every turn.",
     quote: "I feel like myself, but better.",
     client: "Jessica K.",
+    stylist: "Sarah",
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const transformations = [
     microStory: "Cool, creamy blonde that feels natural, not brassy. Lived-in perfection.",
     quote: "I feel like myself, but better.",
     client: "Emma L.",
+    stylist: "Sarah",
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ const transformations = [
     microStory: "Precision meets movement. A cut that grows out beautifully, not awkwardly.",
     quote: "I feel like myself, but better.",
     client: "Michelle R.",
+    stylist: "Emma",
   },
 ];
 
@@ -130,10 +134,11 @@ export function BeforeAfterSection() {
                 >
                   <Image
                     src={showAfter ? currentTransformation.after : currentTransformation.before}
-                    alt={showAfter ? `After transformation: ${currentTransformation.label} at Manzer Hair Studio Danforth` : `Before transformation: ${currentTransformation.label} at Manzer Hair Studio Danforth`}
+                    alt={showAfter ? `After transformation: ${currentTransformation.label} by Manzer Hair Studio stylists on Danforth Avenue, Toronto` : `Before transformation: ${currentTransformation.label} at Manzer Hair Studio Danforth`}
                     fill
                     className={`object-cover transition-all duration-600 ${!showAfter ? "grayscale-[0.3]" : ""}`}
                     sizes="(max-width: 768px) 100vw, 1200px"
+                    loading="lazy"
                   />
                   
                   {/* Soft warm vignette */}
@@ -212,7 +217,12 @@ export function BeforeAfterSection() {
             <p className="font-heading text-xl text-espresso mb-2 italic mt-6">
               &quot;{currentTransformation.quote}&quot;
             </p>
-            <p className="text-olive/70 text-sm font-light">— {currentTransformation.client}</p>
+            <p className="text-olive/70 text-sm font-light mb-2">— {currentTransformation.client}</p>
+            {currentTransformation.stylist && (
+              <p className="text-clay/60 text-xs font-light italic">
+                Styled by {currentTransformation.stylist}
+              </p>
+            )}
           </motion.div>
 
           {/* Dots - Refined */}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
 import { ArrowRight, Heart } from "lucide-react";
+import { trackCTA } from "@/lib/analytics";
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -85,7 +86,7 @@ export function HeroSection() {
           >
             <Image
               src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=1920&q=80&auto=format&fit=crop"
-              alt="Warm, inviting hair salon interior"
+              alt="Manzer Hair Studio interior - warm, inviting boutique salon on Danforth Avenue, Toronto"
               fill
               className="object-cover"
               priority
@@ -366,11 +367,13 @@ export function HeroSection() {
               >
                 <Link
                   href="#book"
-                  className="group relative px-14 py-6 bg-espresso text-gold-soft rounded-full font-medium text-lg overflow-hidden block"
+                  onClick={() => trackCTA("Book My Transformation", "hero")}
+                  className="group relative px-14 py-6 bg-espresso text-gold-soft rounded-full font-medium text-lg overflow-hidden block focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 focus:ring-offset-cream transition-all"
                   style={{
                     boxShadow: "0 4px 20px rgba(59, 46, 37, 0.25), 0 2px 8px rgba(196, 167, 125, 0.15), 0 0 0 1px rgba(196, 167, 125, 0.1) inset",
                     border: "1px solid rgba(196, 167, 125, 0.15)",
                   }}
+                  aria-label="Book your hair transformation appointment"
                 >
                   {/* 1px hairline gold border INSIDE - Ultra luxurious */}
                   <div
@@ -421,12 +424,14 @@ export function HeroSection() {
               >
                 <Link
                   href="/team"
-                  className="group relative px-14 py-6 border text-espresso rounded-full font-medium text-lg backdrop-blur-sm bg-cream-light/30 hover:bg-clay-light/20 transition-all duration-300 overflow-hidden block"
+                  onClick={() => trackCTA("Meet Your Stylist", "hero")}
+                  className="group relative px-14 py-6 border text-espresso rounded-full font-medium text-lg backdrop-blur-sm bg-cream-light/30 hover:bg-clay-light/20 transition-all duration-300 overflow-hidden block focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 focus:ring-offset-cream"
                   style={{
                     borderWidth: "1px",
                     borderColor: "rgba(255, 255, 255, 0.25)",
                     boxShadow: "0 2px 12px rgba(91, 88, 73, 0.1)",
                   }}
+                  aria-label="Meet the stylists at Manzer Hair Studio"
                 >
                   <motion.span
                     className="relative z-10"

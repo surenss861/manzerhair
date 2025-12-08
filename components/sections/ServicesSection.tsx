@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Scissors, Palette, Sparkles, Droplet, Wind } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import { trackCTA } from "@/lib/analytics";
 
 const heroServices = [
   {
     id: 1,
-    title: "Cut + Style",
+    title: "Custom Cuts",
     icon: Scissors,
     description: "Precision cuts tailored to your face shape, lifestyle, and natural texture.",
   },
@@ -20,7 +21,7 @@ const heroServices = [
   },
   {
     id: 3,
-    title: "Highlights",
+    title: "Dimensional Highlights",
     icon: Palette,
     description: "Classic or dimensional highlights customized to enhance your natural color.",
   },
@@ -32,7 +33,7 @@ const heroServices = [
   },
   {
     id: 5,
-    title: "Blowout",
+    title: "Professional Styling",
     icon: Wind,
     description: "Professional styling for special occasions or everyday polish.",
   },
@@ -119,8 +120,10 @@ export function ServicesSection() {
 
                   {/* "Explore Pricing →" CTA */}
                   <Link
-                    href="/services"
-                    className="inline-flex items-center gap-2 text-gold-soft hover:text-gold-light font-light text-sm transition-colors duration-300 group/link"
+                    href="/services#pricing"
+                    onClick={() => trackCTA("Explore Pricing", "services_section")}
+                    className="inline-flex items-center gap-2 text-gold-soft hover:text-gold-light font-light text-sm transition-colors duration-300 group/link focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-1 rounded-sm"
+                    aria-label={`Explore pricing for ${service.title}`}
                   >
                     Explore Pricing
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />

@@ -131,10 +131,11 @@ export function TeamSection() {
                 <div className="relative h-[500px] overflow-hidden">
                   <Image
                     src={teamImages[index] || teamImages[0]}
-                    alt={`${member.name}, ${member.role} at Manzer Hair Studio - Danforth hair salon Toronto`}
+                    alt={`${member.name}, ${member.role} at Manzer Hair Studio - ${member.specialties.join(", ")} specialist on Danforth Avenue, Toronto`}
                     fill
                     className="object-cover group-hover:brightness-110 transition-all duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="lazy"
                   />
                   
                   {/* Soft grain overlay */}
@@ -199,7 +200,8 @@ export function TeamSection() {
                   {/* CTA */}
                   <Link
                     href={`/team#${member.name.toLowerCase()}`}
-                    className="block w-full text-center px-6 py-3 bg-espresso text-cream-light rounded-organic font-medium hover:bg-espresso-light transition-all duration-300 shadow-soft"
+                    className="block w-full text-center px-6 py-3 bg-espresso text-cream-light rounded-organic font-medium hover:bg-espresso-light transition-all duration-300 shadow-soft focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2"
+                    aria-label={`Book an appointment with ${member.name}, ${member.role}`}
                   >
                     Book with {member.name}
                   </Link>
