@@ -6,7 +6,7 @@ import { Footer } from "@/components/global/Footer";
 import { ScrollProgressBar } from "@/components/global/ScrollProgressBar";
 import { SmoothScrollWrapper } from "@/components/global/SmoothScrollWrapper";
 import { PersistentBookingBar } from "@/components/global/PersistentBookingBar";
-import { organizationSchema, serviceSchema } from "./schema";
+import { organizationSchema, serviceSchema, localBusinessSchema, faqSchema } from "./schema";
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -83,6 +83,14 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
       <body

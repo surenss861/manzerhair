@@ -10,6 +10,7 @@ import { TrustIndicatorsSection } from "@/components/sections/TrustIndicatorsSec
 import { FinalCTASection } from "@/components/sections/FinalCTASection";
 import { StickyConversionCTA } from "@/components/global/StickyConversionCTA";
 import { ValuesMicroMoment, salonValues } from "@/components/sections/ValuesMicroMoment";
+import { ClientPersonas } from "@/components/booking/ClientPersonas";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <ValuesMicroMoment value={salonValues[0]} index={0} />
       <ServicesSection />
       <ValuesMicroMoment value={salonValues[1]} index={1} />
+      <ClientPersonas />
       <TeamSection />
       <ValuesMicroMoment value={salonValues[2]} index={2} />
       <BeforeAfterSection />

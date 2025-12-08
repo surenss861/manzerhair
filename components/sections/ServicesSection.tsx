@@ -100,21 +100,26 @@ export function ServicesSection() {
                 className="group relative"
               >
                 {/* Service Card */}
-                <div className="bg-cream-light/80 backdrop-blur-xs rounded-organic overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-300 border border-clay/30 hover:border-gold-soft/40 h-full flex flex-col p-8">
+                <div className="bg-cream-light/80 backdrop-blur-xs rounded-organic overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-300 border border-clay/30 hover:border-gold-soft/40 h-full flex flex-col p-8 gold-shimmer-hover relative">
+                  {/* Gold shimmer overlay on hover */}
+                  <div className="absolute inset-0 rounded-organic opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 gold-shimmer rounded-organic" />
+                  </div>
+                  
                   {/* Gold Icon */}
-                  <div className="mb-6">
-                    <div className="w-16 h-16 rounded-full bg-gold-soft/10 flex items-center justify-center border border-gold-soft/20 group-hover:bg-gold-soft/15 transition-colors duration-300">
-                      <Icon className="w-8 h-8 text-gold-soft" strokeWidth={1.5} />
+                  <div className="mb-6 relative z-10">
+                    <div className="w-16 h-16 rounded-full bg-gold-soft/10 flex items-center justify-center border border-gold-soft/20 group-hover:bg-gold-soft/15 group-hover:border-gold-soft/40 transition-all duration-300 group-hover:shadow-glow">
+                      <Icon className="w-8 h-8 text-gold-soft group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
                     </div>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-heading text-2xl font-semibold text-espresso mb-3">
+                  <h3 className="font-heading text-2xl font-semibold text-espresso mb-3 relative z-10">
                     {service.title}
                   </h3>
 
                   {/* 1-line description */}
-                  <p className="text-olive/70 text-sm leading-relaxed font-light mb-6 flex-1">
+                  <p className="text-olive/70 text-sm leading-relaxed font-light mb-6 flex-1 relative z-10">
                     {service.description}
                   </p>
 
@@ -122,7 +127,7 @@ export function ServicesSection() {
                   <Link
                     href="/services#pricing"
                     onClick={() => trackCTA("Explore Pricing", "services_section")}
-                    className="inline-flex items-center gap-2 text-gold-soft hover:text-gold-light font-light text-sm transition-colors duration-300 group/link focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-1 rounded-sm"
+                    className="inline-flex items-center gap-2 text-gold-soft hover:text-gold-light font-light text-sm transition-colors duration-300 group/link focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-1 rounded-sm relative z-10"
                     aria-label={`Explore pricing for ${service.title}`}
                   >
                     Explore Pricing

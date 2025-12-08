@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { ChevronLeft, ChevronRight, GripVertical } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 const transformations = [
@@ -50,23 +50,56 @@ const transformations = [
 
 export function BeforeAfterSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showAfter, setShowAfter] = useState(false);
+  const [dragProgress, setDragProgress] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const currentTransformation = transformations[currentIndex];
 
+  // Motion values for drag
+  const x = useMotionValue(0);
+  const dragX = useTransform(x, [-200, 200], [-100, 100]);
+  const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0]);
+
   const nextSlide = () => {
-    setShowAfter(false);
+    setDragProgress(0);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % transformations.length);
-      setShowAfter(true);
-    }, 400);
+    }, 300);
   };
 
   const prevSlide = () => {
-    setShowAfter(false);
+    setDragProgress(0);
     setTimeout(() => {
       setCurrentIndex((prev) => (prev - 1 + transformations.length) % transformations.length);
-      setShowAfter(true);
-    }, 400);
+    }, 300);
+  };
+
+  // Auto-reset drag on slide change
+  useEffect(() => {
+    if (!isDragging) {
+      x.set(0);
+      setDragProgress(0);
+    }
+  }, [currentIndex, isDragging, x]);
+
+  // Handle drag end - snap to before/after
+  const handleDragEnd = () => {
+    setIsDragging(false);
+    const threshold = 50;
+    
+    if (Math.abs(x.get()) > threshold) {
+      // Snap to opposite side
+      setDragProgress(x.get() > 0 ? 100 : 0);
+    } else {
+      // Return to current position
+      x.set(0);
+      setDragProgress(dragProgress);
+    }
+  };
+
+  const toggleBeforeAfter = () => {
+    setDragProgress(dragProgress === 0 ? 100 : 0);
+    x.set(0);
   };
 
   return (
@@ -118,29 +151,75 @@ export function BeforeAfterSection() {
           />
         </motion.div>
 
-        {/* Large Editorial Before/After Tiles */}
+        {/* Draggable Before/After Slider */}
         <div className="max-w-6xl mx-auto">
           <div className="relative">
-            {/* Large Editorial Tile with Slow Fade Reveal */}
-            <div className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-organic-lg">
+            {/* Large Editorial Tile with Draggable Slider */}
+            <div 
+              ref={containerRef}
+              className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-organic-lg cursor-grab active:cursor-grabbing"
+            >
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={`${currentIndex}-${showAfter ? "after" : "before"}`}
+                  key={currentIndex}
                   initial={{ opacity: 0, scale: 1.02 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                   className="absolute inset-0"
                 >
-                  <Image
-                    src={showAfter ? currentTransformation.after : currentTransformation.before}
-                    alt={showAfter ? `After transformation: ${currentTransformation.label} by Manzer Hair Studio stylists on Danforth Avenue, Toronto` : `Before transformation: ${currentTransformation.label} at Manzer Hair Studio Danforth`}
-                    fill
-                    className={`object-cover transition-all duration-600 ${!showAfter ? "grayscale-[0.3]" : ""}`}
-                    sizes="(max-width: 768px) 100vw, 1200px"
-                    loading="lazy"
-                  />
-                  
+                  {/* Before Image */}
+                  <motion.div
+                    className="absolute inset-0"
+                    style={{
+                      clipPath: `inset(0 ${100 - dragProgress}% 0 0)`,
+                      x: dragX,
+                    }}
+                  >
+                    <Image
+                      src={currentTransformation.before}
+                      alt={`Before transformation: ${currentTransformation.label} at Manzer Hair Studio Danforth`}
+                      fill
+                      className="object-cover grayscale-[0.3]"
+                      sizes="(max-width: 768px) 100vw, 1200px"
+                      loading="lazy"
+                    />
+                  </motion.div>
+
+                  {/* After Image */}
+                  <motion.div
+                    className="absolute inset-0"
+                    style={{
+                      clipPath: `inset(0 0 0 ${dragProgress}%)`,
+                      x: dragX,
+                    }}
+                  >
+                    <Image
+                      src={currentTransformation.after}
+                      alt={`After transformation: ${currentTransformation.label} by Manzer Hair Studio stylists on Danforth Avenue, Toronto`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 1200px"
+                      loading="lazy"
+                    />
+                  </motion.div>
+
+                  {/* Drag Handle Indicator */}
+                  <motion.div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none"
+                    style={{
+                      left: `${dragProgress}%`,
+                      opacity: isDragging ? 1 : 0.7,
+                    }}
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-12 h-12 bg-cream-light/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-soft-lg border border-gold-soft/30">
+                        <GripVertical className="w-6 h-6 text-gold-soft" />
+                      </div>
+                      <div className="w-1 h-16 bg-gold-soft/60 rounded-full" />
+                    </div>
+                  </motion.div>
+
                   {/* Soft warm vignette */}
                   <div className="absolute inset-0 bg-gradient-to-t from-espresso/40 via-transparent to-transparent" />
                   
@@ -161,7 +240,7 @@ export function BeforeAfterSection() {
                     transition={{ delay: 0.4 }}
                     className="absolute top-8 right-8 bg-cream-light/95 backdrop-blur-sm px-4 py-2 rounded-organic text-xs font-light text-espresso/70 shadow-soft border border-gold-soft/20"
                   >
-                    {showAfter ? "After" : "Before"}
+                    {dragProgress > 50 ? "After" : "Before"}
                   </motion.div>
                 </motion.div>
               </AnimatePresence>
@@ -174,29 +253,45 @@ export function BeforeAfterSection() {
                   border: "1px solid rgba(196, 167, 125, 0.25)",
                 }}
               />
+
+              {/* Draggable Area */}
+              <motion.div
+                className="absolute inset-0 z-10"
+                drag="x"
+                dragConstraints={{ left: -200, right: 200 }}
+                dragElastic={0.1}
+                onDragStart={() => setIsDragging(true)}
+                onDrag={(_, info) => {
+                  const progress = ((info.offset.x + 200) / 400) * 100;
+                  setDragProgress(Math.max(0, Math.min(100, progress)));
+                }}
+                onDragEnd={handleDragEnd}
+                style={{ x }}
+              />
             </div>
 
             {/* Toggle Button - Refined */}
             <motion.button
-              onClick={() => setShowAfter(!showAfter)}
+              onClick={toggleBeforeAfter}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-cream-light/95 backdrop-blur-sm px-8 py-4 rounded-organic text-sm font-medium text-espresso shadow-soft-lg border border-gold-soft/30 hover:border-gold-soft/50 transition-all duration-300"
+              className="absolute bottom-8 left-1/2 -translate-x-1/2 bg-cream-light/95 backdrop-blur-sm px-8 py-4 rounded-organic text-sm font-medium text-espresso shadow-soft-lg border border-gold-soft/30 hover:border-gold-soft/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 focus:ring-offset-2 z-20"
+              aria-label={dragProgress > 50 ? "View before" : "View after"}
             >
-              {showAfter ? "View Before" : "View After"}
+              {dragProgress > 50 ? "View Before" : "View After"}
             </motion.button>
 
             {/* Navigation - Refined */}
             <button
               onClick={prevSlide}
-              className="absolute left-6 top-1/2 -translate-y-1/2 bg-cream-light/95 backdrop-blur-sm hover:bg-cream-light p-4 rounded-organic shadow-soft-lg transition-all duration-300 hover:scale-110 z-10 border border-gold-soft/30 hover:border-gold-soft/50"
+              className="absolute left-6 top-1/2 -translate-y-1/2 bg-cream-light/95 backdrop-blur-sm hover:bg-cream-light p-4 rounded-organic shadow-soft-lg transition-all duration-300 hover:scale-110 z-10 border border-gold-soft/30 hover:border-gold-soft/50 focus:outline-none focus:ring-2 focus:ring-gold-soft/40"
               aria-label="Previous transformation"
             >
               <ChevronLeft className="w-6 h-6 text-espresso" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-6 top-1/2 -translate-y-1/2 bg-cream-light/95 backdrop-blur-sm hover:bg-cream-light p-4 rounded-organic shadow-soft-lg transition-all duration-300 hover:scale-110 z-10 border border-gold-soft/30 hover:border-gold-soft/50"
+              className="absolute right-6 top-1/2 -translate-y-1/2 bg-cream-light/95 backdrop-blur-sm hover:bg-cream-light p-4 rounded-organic shadow-soft-lg transition-all duration-300 hover:scale-110 z-10 border border-gold-soft/30 hover:border-gold-soft/50 focus:outline-none focus:ring-2 focus:ring-gold-soft/40"
               aria-label="Next transformation"
             >
               <ChevronRight className="w-6 h-6 text-espresso" />
@@ -231,13 +326,10 @@ export function BeforeAfterSection() {
               <button
                 key={index}
                 onClick={() => {
-                  setShowAfter(false);
-                  setTimeout(() => {
-                    setCurrentIndex(index);
-                    setShowAfter(true);
-                  }, 400);
+                  setDragProgress(0);
+                  setCurrentIndex(index);
                 }}
-                className={`h-2 rounded-full transition-all duration-300 ${
+                className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gold-soft/40 ${
                   index === currentIndex ? "bg-espresso w-10" : "bg-gold-soft/30 w-2 hover:bg-gold-soft/50"
                 }`}
                 aria-label={`Go to transformation ${index + 1}`}

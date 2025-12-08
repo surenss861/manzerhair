@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, Clock, Sparkles } from "lucide-react";
 
 const teamImages = [
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80&auto=format&fit=crop",
@@ -23,6 +23,12 @@ const teamMembers = [
     signatureQuote: "I believe great hair starts with listening.",
     microBio: "Specializes in lived-in color and effortless cuts. Known for her warm, approachable style and attention to detail.",
     image: "/team/alyssa.jpg",
+    availability: "Accepting new colour clients",
+    availabilityStatus: "available" as const,
+    popularService: {
+      name: "Balayage",
+      price: "from $200",
+    },
   },
   {
     id: 2,
@@ -34,6 +40,12 @@ const teamMembers = [
     signatureQuote: "Color is my canvas, your hair is the art.",
     microBio: "Award-winning colorist with a passion for dimensional, natural-looking results. Expert in color correction and custom formulations.",
     image: "/team/sarah.jpg",
+    availability: "Waitlist — colour only",
+    availabilityStatus: "waitlist" as const,
+    popularService: {
+      name: "Dimensional Colour",
+      price: "from $250",
+    },
   },
   {
     id: 3,
@@ -45,6 +57,12 @@ const teamMembers = [
     signatureQuote: "Precision meets personality in every cut.",
     microBio: "Master of shape and movement. Creates cuts that grow out beautifully and work with your natural texture.",
     image: "/team/emma.jpg",
+    availability: "Limited weekly slots",
+    availabilityStatus: "limited" as const,
+    popularService: {
+      name: "Precision Cuts",
+      price: "from $85",
+    },
   },
   {
     id: 4,
@@ -56,6 +74,12 @@ const teamMembers = [
     signatureQuote: "Your hair, your ritual, your transformation.",
     microBio: "Dedicated to personalized consultations and treatments. Helps clients discover their best hair through thoughtful, tailored approaches.",
     image: "/team/jessica.jpg",
+    availability: "Accepting new clients",
+    availabilityStatus: "available" as const,
+    popularService: {
+      name: "Consultations",
+      price: "from $65",
+    },
   },
 ];
 
@@ -170,7 +194,39 @@ export function TeamSection() {
                     <h3 className="font-heading text-3xl font-semibold text-espresso mb-1 leading-tight">
                       {member.name}
                     </h3>
-                    <p className="text-olive text-sm font-light mb-4">{member.role} • {member.experience}</p>
+                    <p className="text-olive text-sm font-light mb-3">{member.role} • {member.experience}</p>
+                    
+                    {/* Availability Status */}
+                    <div className="flex items-center gap-2 mb-4">
+                      <Clock className={`w-3.5 h-3.5 ${
+                        member.availabilityStatus === "available" 
+                          ? "text-green-600" 
+                          : member.availabilityStatus === "waitlist"
+                          ? "text-gold-soft"
+                          : "text-orange-500"
+                      }`} />
+                      <span className={`text-xs font-light ${
+                        member.availabilityStatus === "available" 
+                          ? "text-green-700" 
+                          : member.availabilityStatus === "waitlist"
+                          ? "text-gold-soft"
+                          : "text-orange-600"
+                      }`}>
+                        {member.availability}
+                      </span>
+                    </div>
+                    
+                    {/* Popular Service */}
+                    {member.popularService && (
+                      <div className="flex items-center gap-2 mb-4 px-3 py-1.5 bg-gold-soft/10 rounded-full border border-gold-soft/20">
+                        <Sparkles className="w-3.5 h-3.5 text-gold-soft" />
+                        <span className="text-xs font-medium text-espresso">
+                          Most booked: <span className="font-semibold">{member.popularService.name}</span>
+                        </span>
+                        <span className="text-xs text-olive/70">•</span>
+                        <span className="text-xs text-olive/80 font-light">{member.popularService.price}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Signature Quote in Script */}
